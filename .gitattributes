@@ -1,0 +1,15 @@
+# Enforce LF line endings for all text files checked into this repo.
+* text=auto eol=lf
+
+# Diffs
+*.blade.php  diff=html
+*.css        diff=css
+*.html       diff=html
+*.js         diff=javascript
+*.jsx        diff=javascript
+*.json       diff=json
+*.md         diff=markdown
+*.php        diff=php
+*.ts         diff=javascript
+*.tsx        diff=javascript
+

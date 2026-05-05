@@ -1,0 +1,17 @@
+includes:
+    - vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - app
+        - tests
+    excludePaths:
+        - vendor
+    ignoreErrors:
+        -
+            # Log::spy() adds shouldHaveReceived() via Mockery at runtime;
+            # PHPStan cannot infer dynamically attached spy methods.
+            message: '#Call to an undefined static method.*::shouldHaveReceived\(\)#'
+            path: tests/
+

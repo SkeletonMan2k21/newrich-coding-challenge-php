@@ -13,16 +13,45 @@ services:
     networks:
       - challenge-network
 
-  challenge:
-    image: php:8.2-cli
-    container_name: coding-challenge-app
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: coding-challenge-backend
+    ports:
+      - "8080:8080"
     volumes:
-      - ./challenge:/app
+      - ./backend:/app
     working_dir: /app
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8080
+      CHALLENGE_SOURCE_API_URL: http://api:8000
+      CHALLENGE_SOURCE_API_TIMEOUT: 5
+      SESSION_DRIVER: file
+      CACHE_STORE: file
+      QUEUE_CONNECTION: sync
+    command: php artisan serve --host=0.0.0.0 --port=8080
+    depends_on:
+      - api
+    networks:
+      - challenge-network
+
+  challenge:
+    build:
+      context: ./challenge
+      dockerfile: Dockerfile
+    container_name: coding-challenge-app
+    ports:
+      - "3000:3000"
+    environment:
+      # Points the Vite proxy at the backend service inside the Docker network.
+      BACKEND_URL: http://backend:8080
     networks:
       - challenge-network
     depends_on:
-      - api
+      - backend
 
 networks:
   challenge-network:

@@ -1,7 +1,3 @@
-parameters:
-    level: 8
-    paths:
-        - src
-        - tests
-    excludePaths:
-        - vendor
+# PHPStan is configured at the component level.
+# Backend static analysis uses Larastan — see backend/phpstan.neon.
+# Run from repo root: composer analyse
